@@ -1,0 +1,76 @@
+import { DEFAULT_PLATFORM } from './platform.js';
+import { type PlatformPath } from './types.js';
+
+const {
+	absolute,
+	delimiter,
+	extension,
+	isAbsolute,
+	join,
+	leaf,
+	matchesGlob,
+	normalize,
+	parent,
+	isInDir,
+	isInDirs,
+	isSafePath,
+	isSafeSegment,
+	posix,
+	relative,
+	resolve,
+	sanitize,
+	separator,
+	untildify,
+	win32,
+} = DEFAULT_PLATFORM;
+
+/* eslint-disable unicorn/prefer-export-from */
+export {
+	type PlatformPath,
+	absolute,
+	delimiter,
+	extension,
+	isAbsolute,
+	join,
+	leaf,
+	matchesGlob,
+	normalize,
+	parent,
+	isInDir,
+	isInDirs,
+	isSafePath,
+	isSafeSegment,
+	posix,
+	relative,
+	resolve,
+	sanitize,
+	separator,
+	untildify,
+	win32,
+};
+/* eslint-enable unicorn/prefer-export-from */
+
+// eslint-disable-next-line import/no-anonymous-default-export
+export default {
+	PlatformPath: undefined as unknown as PlatformPath,
+	absolute,
+	delimiter,
+	extension,
+	isAbsolute,
+	join,
+	leaf,
+	matchesGlob,
+	normalize,
+	parent,
+	isInDir,
+	isInDirs,
+	isSafePath,
+	isSafeSegment,
+	posix,
+	relative,
+	resolve,
+	sanitize,
+	separator,
+	untildify,
+	win32,
+};
