@@ -1,11 +1,11 @@
 import os from 'node:os';
-import type path from 'node:path';
+import type opath from 'node:path';
 import { sanitizePath, Sanitizer, type Target } from '@zokugun/fs-path-sanitize';
 import { isArray, isString } from '@zokugun/is-it-type';
 import { err, type DResult } from '@zokugun/xtry';
 import { type PlatformPath } from './types.js';
 
-export function sanitize(_nodePath: path.PlatformPath, localPath: PlatformPath): (
+export function sanitize(_nodePath: opath.PlatformPath, localPath: PlatformPath): (
 	path: string,
 	options?: {
 		parent?: string | null;

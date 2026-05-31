@@ -1,4 +1,4 @@
-import type path from 'node:path';
+import type opath from 'node:path';
 import process from 'node:process';
 import { isString } from '@zokugun/is-it-type';
 import { type PlatformPath } from './types.js';
@@ -8,7 +8,7 @@ import { getUserHome } from './utils/get-user-home.js';
 const TILDE_REGEX = /^~(?=$|\/|\\)/;
 const USER_REGEX = /^~([^/\\]+)(.*)$/;
 
-export function resolve(nodePath: path.PlatformPath, _localPath: PlatformPath): (...paths: string[]) => string {
+export function resolve(nodePath: opath.PlatformPath, _localPath: PlatformPath): (...paths: string[]) => string {
 	return (...paths) => {
 		if(paths.length === 0) {
 			return process.cwd();

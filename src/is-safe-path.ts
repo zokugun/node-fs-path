@@ -1,10 +1,10 @@
 import os from 'node:os';
-import type path from 'node:path';
+import type opath from 'node:path';
 import { isSafePath as isSafe, Sanitizer, type Target } from '@zokugun/fs-path-sanitize';
 import { isArray, isString } from '@zokugun/is-it-type';
 import { type PlatformPath } from './types.js';
 
-export function isSafePath(_nodePath: path.PlatformPath, localPath: PlatformPath): (
+export function isSafePath(_nodePath: opath.PlatformPath, localPath: PlatformPath): (
 	path: string,
 	options?: {
 		parent?: string | null;

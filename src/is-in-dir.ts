@@ -1,7 +1,7 @@
-import type path from 'node:path';
+import type opath from 'node:path';
 import { type PlatformPath } from './types.js';
 
-export function isInDir(_nodePath: path.PlatformPath, localPath: PlatformPath): (path: string, parent: string) => boolean {
+export function isInDir(_nodePath: opath.PlatformPath, localPath: PlatformPath): (path: string, parent: string) => boolean {
 	return (path, parent) => {
 		let resolvedPath = localPath.resolve(path);
 		let resolvedParent = localPath.resolve(parent);

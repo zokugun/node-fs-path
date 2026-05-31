@@ -44,19 +44,19 @@ This example expands the current user's home directory, joins paths safely, and 
 API reference
 -------------
 
-- `absolute(...paths: string[]): string`: Return an absolute path for the given segments. Uses the current platform resolution behavior.
-- `dir(path: string): string`: Return the directory portion of `path` (empty string when the result is `.`).
-- `extension(path: string): string`: Return the file extension (same as `path.extname`).
+- `absolute(...paths: string[]): string`: Returns a normalized absolute path.
 - `isAbsolute(path: string): boolean`: Return `true` when `path` is absolute for the current platform.
 - `isInDir(path: string, parent: string): boolean`: Return `true` when `path` is equal to or contained within `parent`.
 - `isInDirs(path: string, parents: string[]): boolean`: Return `true` when `path` is equal to or contained within in one of the `parents`.
 - `isSafePath(path: string, options?): boolean`: Return `true` when `path` is considered safe for use (guards against suspicious segments such as `..` when appropriate for the platform).
 - `isSafeSegment(segment: string, target?: Target | 'auto'): boolean`: Return `true` when a single path segment is safe (doesn't contain path separators or traversal sequences).
-- `join(...paths: string[]): string`: Join path segments; returns empty string when the join result is `.`.
-- `leaf(path: string, suffix?: string): string`: Return the basename of `path` (alias of `path.basename`).
+- `join(...paths: string[]): string`: Join path segments.
+- `leafExt(path: string, length?: number): string`: Return the extensions.
+- `leafName(path: string, extension?: number | string): string`: Return the basename of `path` with/without the extensions.
 - `matchesGlob?(path: string, pattern: string): boolean`: Optional platform-provided glob matcher when available.
 - `normalize(path: string): string`: Normalize the path (same as `path.normalize`).
-- `parent(path: string): string`: Return the parent directory of `file` (empty string when the result is `.`).
+- `parentName(path: string): string`: Return the parent name of `path`.
+- `parentPath(path: string): string`: Return the parent directory of `path`.
 - `relative(from: string, to: string): string`: Compute the relative path from `from` to `to`.
 - `resolve(...paths: string[]): string`: Resolve path segments to an absolute path. Supports tilde expansion:
     - `~` expands to the current user's home directory.
@@ -73,8 +73,6 @@ export type PlatformPath = {
     readonly posix: PlatformPath;
     readonly win32: PlatformPath;
     absolute: (...paths: string[]) => string;
-    dir: (path: string) => string;
-    extension: (path: string) => string;
     isAbsolute: (path: string) => boolean;
     isInDir(path: string, parent: string): boolean;
     isInDirs(path: string, parents: string[]): boolean;
@@ -85,10 +83,12 @@ export type PlatformPath = {
 	}) => boolean;
     isSafeSegment: (segment: string, target?: Target | 'auto') => boolean;
     join: (...paths: string[]) => string;
-    leaf: (path: string, suffix?: string) => string;
+	leafExt: (path: string, length?: number) => string;
+    leafName: (path: string, extension?: number | string) => string;
     matchesGlob?: (path: string, pattern: string) => boolean;
     normalize: (path: string) => string;
-    parent: (path: string) => string;
+    parentName: (path: string) => string;
+	parentPath: (path: string) => string;
     relative: (from: string, to: string) => string;
     resolve: (...paths: string[]) => string;
     sanitize(path: string, options?: {
@@ -106,15 +106,10 @@ Comparison with Node's `path`
 
 This library intentionally mirrors many of Node's `path` APIs but provides small ergonomic differences and extra features where useful:
 
-- `absolute(...paths)`: resolves using the runtime platform and always returns a normalized absolute path.
-- `dir(path)`: returns `path.parse(path).dir` (similar to `path.dirname`, kept for API symmetry).
-- `extension(path)`: alias of `path.extname`.
 - `join(...paths)`: wraps `path.join`. Returns `''` instead of `.` when the joined result is the current directory.
 - `isAbsolute(path)`, `normalize(path)`, `relative(from, to)`: direct mappings to `path.isAbsolute`, `path.normalize`, and `path.relative` respectively.
-- `leaf(path, suffix?)`: alias of `path.basename`.
-- `parent(file)`: wraps `path.dirname`. Returns `''` instead of `.` for consistency with `join`.
+- `parentPath(file)`: wraps `path.dirname`. Returns `''` instead of `.` for consistency with `join`.
 - `resolve(...paths)`: wraps `path.resolve` but adds tilde expansion (`~` and `~username`) before resolving.
-- `untildify(path)`: purely handles `~` expansion; no direct equivalent in Node core.
 - `delimiter`: same value as `path.delimiter` on the current platform.
 - `separator`: same value as `path.sep` on the current platform.
 

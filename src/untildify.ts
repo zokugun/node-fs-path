@@ -1,4 +1,4 @@
-import type path from 'node:path';
+import type opath from 'node:path';
 import { isString } from '@zokugun/is-it-type';
 import { type PlatformPath } from './types.js';
 import { getHome } from './utils/get-home.js';
@@ -7,7 +7,7 @@ import { getUserHome } from './utils/get-user-home.js';
 const TILDE_REGEX = /^~(?=$|\/|\\)/;
 const USER_REGEX = /^~([^/\\]+)(.*)$/;
 
-export function untildify(_nodePath: path.PlatformPath, _localPath: PlatformPath): (path: string) => string {
+export function untildify(_nodePath: opath.PlatformPath, _localPath: PlatformPath): (path: string) => string {
 	return (path) => {
 		const homedir = getHome();
 

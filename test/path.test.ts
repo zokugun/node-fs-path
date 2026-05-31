@@ -1,14 +1,14 @@
-import path from 'node:path';
+import opath from 'node:path';
 import process from 'node:process';
 import { expect, it } from 'vitest';
 import fse from '../src/index.js';
 
 it('should absolute', () => {
-	expect(fse.absolute('.')).to.equal(path.resolve('.'));
+	expect(fse.absolute('.')).to.equal(opath.resolve('.'));
 	expect(fse.absolute('/opt/webroot')).to.equal('/opt/webroot');
-	expect(fse.absolute('opt/webroot')).to.equal(path.resolve('.') + '/opt/webroot');
-	expect(fse.absolute('./opt/webroot')).to.equal(path.resolve('.') + '/opt/webroot');
-	expect(fse.absolute('../opt/webroot')).to.equal(path.resolve('..') + '/opt/webroot');
+	expect(fse.absolute('opt/webroot')).to.equal(opath.resolve('.') + '/opt/webroot');
+	expect(fse.absolute('./opt/webroot')).to.equal(opath.resolve('.') + '/opt/webroot');
+	expect(fse.absolute('../opt/webroot')).to.equal(opath.resolve('..') + '/opt/webroot');
 });
 
 it('should join', () => {
@@ -21,16 +21,46 @@ it('should join', () => {
 	expect(fse.join('/opt/webroot/', '..', 'webroot', '/img')).to.equal('/opt/webroot/img');
 });
 
-it('should leaf', () => {
-	expect(fse.leaf('/opt/webroot')).to.equal('webroot');
-	expect(fse.leaf('/opt/webroot/')).to.equal('webroot');
-	expect(fse.leaf('/opt/webroot/img/test.png')).to.equal('test.png');
-	expect(fse.leaf('/opt/webroot/img/test.png', '.png')).to.equal('test');
+it('should leafExt', () => {
+	expect(fse.leafExt('/opt/webroot')).to.equal('');
+	expect(fse.leafExt('/opt/webroot/')).to.equal('');
+	expect(fse.leafExt('/opt/webroot/', 1)).to.equal('');
+	expect(fse.leafExt('/opt/webroot/', 2)).to.equal('');
+	expect(fse.leafExt('/opt/webroot/', 0)).to.equal('');
+	expect(fse.leafExt('/opt/webroot/img/test.png')).to.equal('.png');
+	expect(fse.leafExt('/opt/webroot/img/test.tar.gz')).to.equal('.gz');
+	expect(fse.leafExt('/opt/webroot/img/test.tar.gz', 1)).to.equal('.gz');
+	expect(fse.leafExt('/opt/webroot/img/test.tar.gz', 2)).to.equal('.tar.gz');
+	expect(fse.leafExt('/opt/webroot/img/test.tar.gz', 0)).to.equal('.tar.gz');
+	expect(fse.leafExt('/opt/webroot/img/.editorconfig')).to.equal('');
+	expect(fse.leafExt('/opt/webroot/img/.editorconfig', 2)).to.equal('');
+	expect(fse.leafExt('/opt/webroot/img/.editorconfig', 0)).to.equal('');
 });
 
-it('should parent', () => {
-	expect(fse.parent('/opt/webroot')).to.equal('/opt');
-	expect(fse.parent('/opt/webroot/')).to.equal('/opt');
+it('should leafName', () => {
+	expect(fse.leafName('/opt/webroot')).to.equal('webroot');
+	expect(fse.leafName('/opt/webroot/')).to.equal('webroot');
+	expect(fse.leafName('/opt/webroot/', 1)).to.equal('webroot');
+	expect(fse.leafName('/opt/webroot/', 2)).to.equal('webroot');
+	expect(fse.leafName('/opt/webroot/', 0)).to.equal('webroot');
+	expect(fse.leafName('/opt/webroot/img/test.png')).to.equal('test.png');
+	expect(fse.leafName('/opt/webroot/img/test.png', '.png')).to.equal('test');
+	expect(fse.leafName('/opt/webroot/img/test.png', 1)).to.equal('test');
+	expect(fse.leafName('/opt/webroot/img/test.png', 2)).to.equal('test');
+	expect(fse.leafName('/opt/webroot/img/test.png', 0)).to.equal('test');
+	expect(fse.leafName('/opt/webroot/img/test.tar.gz', 1)).to.equal('test.tar');
+	expect(fse.leafName('/opt/webroot/img/test.tar.gz', 2)).to.equal('test');
+	expect(fse.leafName('/opt/webroot/img/test.tar.gz', 0)).to.equal('test');
+});
+
+it('should parentName', () => {
+	expect(fse.parentName('/opt/webroot')).to.equal('opt');
+	expect(fse.parentName('/opt/webroot/')).to.equal('opt');
+});
+
+it('should parentPath', () => {
+	expect(fse.parentPath('/opt/webroot')).to.equal('/opt');
+	expect(fse.parentPath('/opt/webroot/')).to.equal('/opt');
 });
 
 it('should relative', () => {
@@ -39,15 +69,15 @@ it('should relative', () => {
 });
 
 it('should resolve', () => {
-	expect(fse.resolve('.')).to.equal(path.resolve('.'));
+	expect(fse.resolve('.')).to.equal(opath.resolve('.'));
 	expect(fse.resolve('/opt/webroot')).to.equal('/opt/webroot');
-	expect(fse.resolve('opt/webroot')).to.equal(path.resolve('.') + '/opt/webroot');
-	expect(fse.resolve('./opt/webroot')).to.equal(path.resolve('.') + '/opt/webroot');
-	expect(fse.resolve('../opt/webroot')).to.equal(path.resolve('..') + '/opt/webroot');
+	expect(fse.resolve('opt/webroot')).to.equal(opath.resolve('.') + '/opt/webroot');
+	expect(fse.resolve('./opt/webroot')).to.equal(opath.resolve('.') + '/opt/webroot');
+	expect(fse.resolve('../opt/webroot')).to.equal(opath.resolve('..') + '/opt/webroot');
 });
 
 it('should have separator', () => {
-	expect(fse.separator).to.equal(path.sep);
+	expect(fse.separator).to.equal(opath.sep);
 });
 
 it('should detect path inside directory', () => {

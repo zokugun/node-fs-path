@@ -1,9 +1,9 @@
 // eslint-disable-next-line unicorn/prevent-abbreviations
-import type path from 'node:path';
+import type opath from 'node:path';
 import { type PlatformPath } from './types.js';
 
 // eslint-disable-next-line unicorn/prevent-abbreviations
-export function isInDirs(_nodePath: path.PlatformPath, localPath: PlatformPath): (path: string, parents: string[]) => boolean {
+export function isInDirs(_nodePath: opath.PlatformPath, localPath: PlatformPath): (path: string, parents: string[]) => boolean {
 	if(localPath.separator === '\\') {
 		return (path, parents) => {
 			const resolvedPath = localPath.resolve(path).toLowerCase();

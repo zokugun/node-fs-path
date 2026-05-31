@@ -7,11 +7,9 @@ export type PlatformPath = {
 	readonly posix: PlatformPath;
 	readonly win32: PlatformPath;
 	absolute: (...paths: string[]) => string;
-	dir: (path: string) => string;
-	extension: (path: string) => string;
 	isAbsolute: (path: string) => boolean;
-	isInDir: (file: string, dir: string) => boolean;
-	isInDirs: (file: string, directories: string[]) => boolean;
+	isInDir: (path: string, dir: string) => boolean;
+	isInDirs: (path: string, directories: string[]) => boolean;
 	isSafePath: (path: string, options?: {
 		parent?: string | null;
 		parents?: string | string[] | null;
@@ -19,10 +17,12 @@ export type PlatformPath = {
 	}) => boolean;
 	isSafeSegment: (segment: string, target?: Target | 'auto') => boolean;
 	join: (...paths: string[]) => string;
-	leaf: (path: string, suffix?: string) => string;
+	leafExt: (path: string, length?: number) => string;
+	leafName: (path: string, extension?: number | string) => string;
 	matchesGlob?: (path: string, pattern: string) => boolean;
 	normalize: (path: string) => string;
-	parent: (file: string) => string;
+	parentName: (path: string) => string;
+	parentPath: (path: string) => string;
 	relative: (from: string, to: string) => string;
 	resolve: (...paths: string[]) => string;
 	sanitize: (path: string, options?: {

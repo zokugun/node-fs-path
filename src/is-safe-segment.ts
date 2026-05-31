@@ -1,9 +1,9 @@
 import os from 'node:os';
-import type path from 'node:path';
+import type opath from 'node:path';
 import { isSafeSegment as isSafe, Sanitizer, type Target } from '@zokugun/fs-path-sanitize';
 import { type PlatformPath } from './types.js';
 
-export function isSafeSegment(_nodePath: path.PlatformPath, localPath: PlatformPath): (segment: string, target?: Target | 'auto') => boolean {
+export function isSafeSegment(_nodePath: opath.PlatformPath, localPath: PlatformPath): (segment: string, target?: Target | 'auto') => boolean {
 	let target: Target;
 
 	if(localPath.separator === '\\') {
