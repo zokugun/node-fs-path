@@ -2,8 +2,9 @@
 	"exclude": [
 		"commitlint/cli",
 		"@commitlint/config-conventional",
+		"katex",
 		"lint-staged",
-		"xo"
+		"release-it"
 	],
 	"force": true,
 	"includeLocked": true,
