@@ -19,7 +19,7 @@ export function isSafeSegment(_nodePath: opath.PlatformPath, localPath: Platform
 
 	return (segment, target) => {
 		if(!target || target === 'auto') {
-			return sanitizer.isSafePath(segment);
+			return sanitizer.isSafeSegment(segment);
 		}
 		else {
 			return isSafe(segment, target);
