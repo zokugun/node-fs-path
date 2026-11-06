@@ -47,9 +47,9 @@
 		"watch:test": "tsc-watch -p test"
 	},
 	"dependencies": {
-		"@zokugun/fs-path-sanitize": "0.1.0",
+		"@zokugun/fs-path-sanitize": "0.2.1",
 		"@zokugun/is-it-type": "0.8.1",
-		"@zokugun/xtry": "0.11.6"
+		"@zokugun/xtry": "0.12.2"
 	},
 	"devDependencies": {
 		"@commitlint/cli": "20.5.3",
@@ -109,9 +109,6 @@
 		},
 		"release-it": {
 			"undici": "7.30.1"
-		},
-		"rimraf": {
-			"glob": "14.0.2"
 		}
 	},
 	"allowScripts": {
