@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog][keepachangelog], and this project adheres to [Semantic Versioning][semver].
 
+[Unreleased]
+------------
+
+### Changed
+
+- `normalize()` on posix, recognizes both separators and replaces them with the preferred separator
+
 [v0.2.2] | 2026-11-06
 ---------------------
 

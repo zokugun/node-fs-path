@@ -21,6 +21,13 @@ it('should join', () => {
 	expect(fse.join('/opt/webroot/', '..', 'webroot', '/img')).to.equal('/opt/webroot/img');
 });
 
+it('should normalize', () => {
+	expect(fse.win32.normalize('C:////temp\\\\/\\/\\/foo/bar')).to.equal('C:\\temp\\foo\\bar');
+	expect(fse.posix.normalize('\\opt\\webroot\\img/test.png')).to.equal('/opt/webroot/img/test.png');
+	expect(fse.posix.normalize('\\\\?\\C:\\user\\docs\\Letter.txt')).to.equal('//?/C:/user/docs/Letter.txt');
+	expect(fse.posix.normalize('E:\\\\foo/bar\\baz')).to.equal('E:/foo/bar/baz');
+});
+
 it('should leafExt', () => {
 	expect(fse.leafExt('/opt/webroot')).to.equal('');
 	expect(fse.leafExt('/opt/webroot/')).to.equal('');

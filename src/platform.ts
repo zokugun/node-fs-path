@@ -9,6 +9,7 @@ import { join } from './join.js';
 // eslint-disable-next-line unicorn/prevent-abbreviations
 import { leafExt } from './leaf-ext.js';
 import { leafName } from './leaf-name.js';
+import { normalize } from './normalize.js';
 import { parentName } from './parent-name.js';
 import { parentPath } from './parent-path.js';
 import { resolve } from './resolve.js';
@@ -20,7 +21,6 @@ function buildPlatform(path: opath.PlatformPath): Partial<PlatformPath> {
 	const {
 		delimiter,
 		isAbsolute,
-		normalize,
 		relative,
 		sep: separator,
 	} = path;
@@ -30,7 +30,6 @@ function buildPlatform(path: opath.PlatformPath): Partial<PlatformPath> {
 		separator,
 		isAbsolute,
 		matchesGlob: path.matchesGlob ?? undefined,
-		normalize,
 		relative,
 	};
 
@@ -42,6 +41,7 @@ function buildPlatform(path: opath.PlatformPath): Partial<PlatformPath> {
 	result.join = join(path, result as unknown as PlatformPath);
 	result.leafExt = leafExt(path, result as unknown as PlatformPath);
 	result.leafName = leafName(path, result as unknown as PlatformPath);
+	result.normalize = normalize(path, result as unknown as PlatformPath);
 	result.parentName = parentName(path, result as unknown as PlatformPath);
 	result.parentPath = parentPath(path, result as unknown as PlatformPath);
 	result.resolve = resolve(path, result as unknown as PlatformPath);
