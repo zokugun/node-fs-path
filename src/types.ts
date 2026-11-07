@@ -1,12 +1,26 @@
 import { type Target } from '@zokugun/fs-path-sanitize';
 import { type DResult } from '@zokugun/xtry';
 
+export type ExtOptions = {
+	depth?: number;
+	ignore?: string[];
+	maxLength?: number;
+}
+
 export type PlatformPath = {
 	readonly delimiter: ';' | ':';
 	readonly separator: '\\' | '/';
 	readonly posix: PlatformPath;
 	readonly win32: PlatformPath;
 	absolute: (...paths: string[]) => string;
+	ext: {
+		add: (path: string, ext: string) => string;
+		ensure: (path: string, ext: string, options?: ExtOptions) => string;
+		get: (path: string, depth?: number) => string;
+		remove: (path: string, ext: string) => string;
+		replace: (path: string, ext: string, options?: ExtOptions) => string;
+		trim: (path: string, options?: ExtOptions) => string;
+	},
 	isAbsolute: (path: string) => boolean;
 	isInDir: (path: string, dir: string) => boolean;
 	isInDirs: (path: string, directories: string[]) => boolean;

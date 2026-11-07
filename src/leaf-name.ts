@@ -1,6 +1,7 @@
 import type path from 'node:path';
+import type { PlatformPath } from './types.js';
+
 import { isString, isUndefined } from '@zokugun/is-it-type';
-import { type PlatformPath } from './types.js';
 
 export function leafName(nodePath: path.PlatformPath, _localPath: PlatformPath): (path: string, extension?: number | string) => string {
 	return (path, extension) => {

@@ -3,6 +3,7 @@ import { type PlatformPath } from './types.js';
 
 const {
 	absolute,
+	ext,
 	delimiter,
 	isAbsolute,
 	join,
@@ -30,6 +31,7 @@ export {
 	type PlatformPath,
 	absolute,
 	delimiter,
+	ext,
 	isAbsolute,
 	join,
 	leafExt,
@@ -57,6 +59,7 @@ export default {
 	PlatformPath: undefined as unknown as PlatformPath,
 	absolute,
 	delimiter,
+	ext,
 	isAbsolute,
 	join,
 	leafExt,

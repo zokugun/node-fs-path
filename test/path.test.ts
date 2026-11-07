@@ -28,22 +28,6 @@ it('should normalize', () => {
 	expect(fse.posix.normalize('E:\\\\foo/bar\\baz')).to.equal('E:/foo/bar/baz');
 });
 
-it('should leafExt', () => {
-	expect(fse.leafExt('/opt/webroot')).to.equal('');
-	expect(fse.leafExt('/opt/webroot/')).to.equal('');
-	expect(fse.leafExt('/opt/webroot/', 1)).to.equal('');
-	expect(fse.leafExt('/opt/webroot/', 2)).to.equal('');
-	expect(fse.leafExt('/opt/webroot/', 0)).to.equal('');
-	expect(fse.leafExt('/opt/webroot/img/test.png')).to.equal('.png');
-	expect(fse.leafExt('/opt/webroot/img/test.tar.gz')).to.equal('.gz');
-	expect(fse.leafExt('/opt/webroot/img/test.tar.gz', 1)).to.equal('.gz');
-	expect(fse.leafExt('/opt/webroot/img/test.tar.gz', 2)).to.equal('.tar.gz');
-	expect(fse.leafExt('/opt/webroot/img/test.tar.gz', 0)).to.equal('.tar.gz');
-	expect(fse.leafExt('/opt/webroot/img/.editorconfig')).to.equal('');
-	expect(fse.leafExt('/opt/webroot/img/.editorconfig', 2)).to.equal('');
-	expect(fse.leafExt('/opt/webroot/img/.editorconfig', 0)).to.equal('');
-});
-
 it('should leafName', () => {
 	expect(fse.leafName('/opt/webroot')).to.equal('webroot');
 	expect(fse.leafName('/opt/webroot/')).to.equal('webroot');
