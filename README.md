@@ -1,11 +1,13 @@
 [@zokugun/fs-path](https://github.com/zokugun/node-fs-path)
 ===========================================================
 
-[![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
-[![NPM Version](https://img.shields.io/npm/v/@zokugun/fs-path.svg?colorB=green)](https://www.npmjs.com/package/@zokugun/fs-path)
-[![Donation](https://img.shields.io/badge/donate-ko--fi-green)](https://ko-fi.com/daiyam)
-[![Donation](https://img.shields.io/badge/donate-liberapay-green)](https://liberapay.com/daiyam/donate)
-[![Donation](https://img.shields.io/badge/donate-paypal-green)](https://paypal.me/daiyam99)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue)](./LICENSE)
+[![NPM Version](https://img.shields.io/npm/v/@zokugun/fs-path?color=brightgreen)](https://www.npmjs.com/package/@zokugun/fs-path)
+[![NodeJS Version](https://img.shields.io/badge/node.js-%3E%3D%2018.20-green)](#requirements)
+[![Modules](https://img.shields.io/badge/modules-ESM%20%7C%20CJS-green)](#requirements)
+[![Ko-fi](https://img.shields.io/badge/Ko--fi-f87171?logo=kofi&logoColor=white)](https://ko-fi.com/daiyam)
+[![Liberapay](https://img.shields.io/badge/Liberapay-facc15?logo=liberapay&logoColor=black)](https://liberapay.com/daiyam/donate)
+[![PayPal](https://img.shields.io/badge/PayPal-5277C3?logo=paypal&logoColor=white)](https://paypal.me/daiyam99)
 
 > Compact set of path utilities that complement Node's builtin `path` module.
 
@@ -15,7 +17,7 @@ Features
 - Tilde expansion: expand `~` to the current user's home directory with `untildify`.
 - Safe joining and resolving: helpers that avoid common pitfalls when composing paths.
 - Useful utilities: retrieve parent paths, absolute normalization, and platform-aware helpers.
-- Small package with ESM and CJS builds
+- Extension helpers: add, ensure, get, remove, replace, or trim file extensions.
 
 Installation
 ------------
@@ -23,6 +25,12 @@ Installation
 ```bash
 npm add @zokugun/fs-path
 ```
+
+Requirements
+------------
+
+- **Node.js**: `v18.20` or higher
+- **Modules**: ECMAScript Modules (`ESM`) or CommonJS (`CJS`)
 
 Quick Start
 -----------
@@ -51,10 +59,17 @@ API reference
 - `isSafePath(path: string, options?): boolean`: Return `true` when `path` is considered safe for use (guards against suspicious segments such as `..` when appropriate for the platform).
 - `isSafeSegment(segment: string, target?: Target | 'auto'): boolean`: Return `true` when a single path segment is safe (doesn't contain path separators or traversal sequences).
 - `join(...paths: string[]): string`: Join path segments.
+- `ext`: File-extension helpers:
+    - `ext.add(path: string, ext: string): string`: Append an extension, adding a leading dot when needed.
+    - `ext.ensure(path: string, ext: string, options?: ExtOptions): string`: Append the extension unless the path already has a matching extension.
+    - `ext.get(path: string, depth?: number): string`: Get the extension; `depth` selects multiple suffixes (for example, `2` returns `.tar.gz`).
+    - `ext.remove(path: string, ext: string): string`: Remove the matching trailing extension.
+    - `ext.replace(path: string, ext: string, options?: ExtOptions): string`: Trim a matching extension, then append the given extension.
+    - `ext.trim(path: string, options?: ExtOptions): string`: Remove a matching extension from the path.
 - `leafExt(path: string, length?: number): string`: Return the extensions.
 - `leafName(path: string, extension?: number | string): string`: Return the basename of `path` with/without the extensions.
 - `matchesGlob?(path: string, pattern: string): boolean`: Optional platform-provided glob matcher when available.
-- `normalize(path: string): string`: Normalize the path (same as `path.normalize`).
+- `normalize(path: string): string`: Normalize a path using the current platform's path rules.
 - `parentName(path: string): string`: Return the parent name of `path`.
 - `parentPath(path: string): string`: Return the parent directory of `path`.
 - `relative(from: string, to: string): string`: Compute the relative path from `from` to `to`.
@@ -67,12 +82,26 @@ API reference
 - `separator`: Platform-specific character (`\`/`/`).
 
 ```ts
+export type ExtOptions = {
+    depth?: number;
+    ignore?: string[];
+    maxLength?: number;
+};
+
 export type PlatformPath = {
     readonly delimiter: ';' | ':';
     readonly separator: '\\' | '/';
     readonly posix: PlatformPath;
     readonly win32: PlatformPath;
     absolute: (...paths: string[]) => string;
+    ext: {
+        add(path: string, ext: string): string;
+        ensure(path: string, ext: string, options?: ExtOptions): string;
+        get(path: string, depth?: number): string;
+        remove(path: string, ext: string): string;
+        replace(path: string, ext: string, options?: ExtOptions): string;
+        trim(path: string, options?: ExtOptions): string;
+    };
     isAbsolute: (path: string) => boolean;
     isInDir(path: string, parent: string): boolean;
     isInDirs(path: string, parents: string[]): boolean;
@@ -107,7 +136,8 @@ Comparison with Node's `path`
 This library intentionally mirrors many of Node's `path` APIs but provides small ergonomic differences and extra features where useful:
 
 - `join(...paths)`: wraps `path.join`. Returns `''` instead of `.` when the joined result is the current directory.
-- `isAbsolute(path)`, `normalize(path)`, `relative(from, to)`: direct mappings to `path.isAbsolute`, `path.normalize`, and `path.relative` respectively.
+- `isAbsolute(path)` and `relative(from, to)`: direct mappings to `path.isAbsolute` and `path.relative`.
+- `normalize(path)`: uses the current platform's path rules; on POSIX, backslashes are also treated as separators.
 - `parentPath(file)`: wraps `path.dirname`. Returns `''` instead of `.` for consistency with `join`.
 - `resolve(...paths)`: wraps `path.resolve` but adds tilde expansion (`~` and `~username`) before resolving.
 - `delimiter`: same value as `path.delimiter` on the current platform.
