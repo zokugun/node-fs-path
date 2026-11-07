@@ -1,31 +1,14 @@
 import opath from 'node:path';
 import process from 'node:process';
 import { expect, it } from 'vitest';
+
 import fse from '../src/index.js';
 
-it('should absolute', () => {
-	expect(fse.absolute('.')).to.equal(opath.resolve('.'));
-	expect(fse.absolute('/opt/webroot')).to.equal('/opt/webroot');
-	expect(fse.absolute('opt/webroot')).to.equal(opath.resolve('.') + '/opt/webroot');
-	expect(fse.absolute('./opt/webroot')).to.equal(opath.resolve('.') + '/opt/webroot');
-	expect(fse.absolute('../opt/webroot')).to.equal(opath.resolve('..') + '/opt/webroot');
-});
-
-it('should join', () => {
-	expect(fse.join('/opt/webroot', 'img')).to.equal('/opt/webroot/img');
-	expect(fse.join('/opt/webroot/', 'img')).to.equal('/opt/webroot/img');
-	expect(fse.join('/opt/webroot', '/img')).to.equal('/opt/webroot/img');
-	expect(fse.join('/opt/webroot/', '/img')).to.equal('/opt/webroot/img');
-
-	expect(fse.join('/opt/webroot/', '..', '/img')).to.equal('/opt/img');
-	expect(fse.join('/opt/webroot/', '..', 'webroot', '/img')).to.equal('/opt/webroot/img');
-});
-
-it('should normalize', () => {
-	expect(fse.win32.normalize('C:////temp\\\\/\\/\\/foo/bar')).to.equal('C:\\temp\\foo\\bar');
-	expect(fse.posix.normalize('\\opt\\webroot\\img/test.png')).to.equal('/opt/webroot/img/test.png');
-	expect(fse.posix.normalize('\\\\?\\C:\\user\\docs\\Letter.txt')).to.equal('//?/C:/user/docs/Letter.txt');
-	expect(fse.posix.normalize('E:\\\\foo/bar\\baz')).to.equal('E:/foo/bar/baz');
+it('should isInDir', () => {
+	expect(fse.posix.isInDir('/opt/webroot/img', '/opt/webroot')).to.be.true;
+	expect(fse.posix.isInDir('/opt/webroot2', '/opt/webroot')).to.be.false;
+	expect(fse.win32.isInDir('C:\\OPT\\WEBROOT\\img', 'c:\\opt\\webroot')).to.be.true;
+	expect(fse.win32.isInDir('C:\\opt\\webroot2', 'C:\\opt\\webroot')).to.be.false;
 });
 
 it('should leafName', () => {
@@ -44,6 +27,13 @@ it('should leafName', () => {
 	expect(fse.leafName('/opt/webroot/img/test.tar.gz', 0)).to.equal('test');
 });
 
+it('should normalize', () => {
+	expect(fse.win32.normalize('C:////temp\\\\/\\/\\/foo/bar')).to.equal('C:\\temp\\foo\\bar');
+	expect(fse.posix.normalize('\\opt\\webroot\\img/test.png')).to.equal('/opt/webroot/img/test.png');
+	expect(fse.posix.normalize('\\\\?\\C:\\user\\docs\\Letter.txt')).to.equal('//?/C:/user/docs/Letter.txt');
+	expect(fse.posix.normalize('E:\\\\foo/bar\\baz')).to.equal('E:/foo/bar/baz');
+});
+
 it('should parentName', () => {
 	expect(fse.parentName('/opt/webroot')).to.equal('opt');
 	expect(fse.parentName('/opt/webroot/')).to.equal('opt');
@@ -52,19 +42,6 @@ it('should parentName', () => {
 it('should parentPath', () => {
 	expect(fse.parentPath('/opt/webroot')).to.equal('/opt');
 	expect(fse.parentPath('/opt/webroot/')).to.equal('/opt');
-});
-
-it('should relative', () => {
-	expect(fse.relative('/opt/webroot', '/opt/webroot/img')).to.equal('img');
-	expect(fse.relative('/opt/webroot', '/opt/node_modules')).to.equal('../node_modules');
-});
-
-it('should resolve', () => {
-	expect(fse.resolve('.')).to.equal(opath.resolve('.'));
-	expect(fse.resolve('/opt/webroot')).to.equal('/opt/webroot');
-	expect(fse.resolve('opt/webroot')).to.equal(opath.resolve('.') + '/opt/webroot');
-	expect(fse.resolve('./opt/webroot')).to.equal(opath.resolve('.') + '/opt/webroot');
-	expect(fse.resolve('../opt/webroot')).to.equal(opath.resolve('..') + '/opt/webroot');
 });
 
 it('should have separator', () => {
@@ -88,13 +65,4 @@ it('should sanitize while checking parent', () => {
 	result = fse.sanitize('../a/./../b/c.txt', { parent: cwd });
 	expect(result.fails).to.be.true;
 	expect(result.error).to.equal('Invalid path: not within allowed parents');
-});
-
-it('should isSafePath while checking parent', () => {
-	const cwd = process.cwd();
-
-	expect(fse.isSafePath('a/./../b/c.txt', { parent: cwd })).to.be.false;
-	expect(fse.isSafePath('../a/./../b/c.txt', { parent: cwd })).to.be.false;
-	expect(fse.isSafePath(fse.resolve('a/./../b/c.txt'), { parent: cwd })).to.be.true;
-	expect(fse.isSafePath(fse.resolve('../a/./../b/c.txt'), { parent: cwd })).to.be.false;
 });

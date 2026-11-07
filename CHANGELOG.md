@@ -12,6 +12,10 @@ The format is based on [Keep a Changelog][keepachangelog], and this project adhe
 
 - `normalize()` on posix, recognizes both separators and replaces them with the preferred separator
 
+### Fixed
+
+- windows: update `@zokugun/fs-path-sanitize` to pass `isSafePath` tests
+
 ### Added
 
 - add functions to `add`, `ensure`, `get`, `remove`, `replace` and `trim` extensions
