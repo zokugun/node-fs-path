@@ -1,0 +1,13 @@
+heading:
+  style: setext
+release:
+  template: '[v{version}] | {date:YYYY-MM-DD}'
+unreleased:
+  template: '[Unreleased]'
+  action: remove
+reference:
+  release:
+    name: v{version}
+    link: https://github.com/zokugun/node-fs-path/releases/tag/v{version}
+  unreleased:
+    link: https://github.com/zokugun/node-fs-path/compare/v{version}...HEAD
