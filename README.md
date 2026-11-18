@@ -53,6 +53,8 @@ API reference
 -------------
 
 - `absolute(...paths: string[]): string`: Returns a normalized absolute path.
+- `baseExt(path: string, length?: number): string`: Return the extensions.
+- `baseName(path: string, extension?: number | string): string`: Return the basename of `path` with/without the extensions.
 - `isAbsolute(path: string): boolean`: Return `true` when `path` is absolute for the current platform.
 - `isInDir(path: string, parent: string): boolean`: Return `true` when `path` is equal to or contained within `parent`.
 - `isInDirs(path: string, parents: string[]): boolean`: Return `true` when `path` is equal to or contained within in one of the `parents`.
@@ -66,8 +68,6 @@ API reference
     - `ext.remove(path: string, ext: string): string`: Remove the matching trailing extension.
     - `ext.replace(path: string, ext: string, options?: ExtOptions): string`: Trim a matching extension, then append the given extension.
     - `ext.trim(path: string, options?: ExtOptions): string`: Remove a matching extension from the path.
-- `leafExt(path: string, length?: number): string`: Return the extensions.
-- `leafName(path: string, extension?: number | string): string`: Return the basename of `path` with/without the extensions.
 - `matchesGlob?(path: string, pattern: string): boolean`: Optional platform-provided glob matcher when available.
 - `normalize(path: string): string`: Normalize a path using the current platform's path rules.
 - `parentName(path: string): string`: Return the parent name of `path`.
@@ -76,8 +76,11 @@ API reference
 - `resolve(...paths: string[]): string`: Resolve path segments to an absolute path. Supports tilde expansion:
     - `~` expands to the current user's home directory.
     - `~username/...` attempts to expand to that user's home directory when available.
-- `sanitize(path: string, options?): Result<string>`: Return a sanitized form of `path` with unsafe segments normalized.
+- `sanitizePath(path: string, options?): Result<string>`: Return a sanitized form of `path` with unsafe segments normalized.
+- `sanitizeSegment(segment: string, options?): string`: Return a sanitized segment.
 - `untildify(path: string): string`: Expand a leading `~` or `~username` to the home directory, or return `path` unchanged.
+- `validatePath(path: string, options?): Result<string>`: Return `path` when `path` is considered safe for use.
+- `validateSegment(segment: string, target?: Target | 'auto'): Result<string>`: Return `segment` when `segment` is considered safe for use.
 - `delimiter`: Platform-specific character (`;`/`:`).
 - `separator`: Platform-specific character (`\`/`/`).
 
@@ -94,6 +97,8 @@ export type PlatformPath = {
     readonly posix: PlatformPath;
     readonly win32: PlatformPath;
     absolute: (...paths: string[]) => string;
+	baseExt: (path: string, length?: number) => string;
+    baseName: (path: string, extension?: number | string) => string;
     ext: {
         add(path: string, ext: string): string;
         ensure(path: string, ext: string, options?: ExtOptions): string;
@@ -112,21 +117,32 @@ export type PlatformPath = {
 	}) => boolean;
     isSafeSegment: (segment: string, target?: Target | 'auto') => boolean;
     join: (...paths: string[]) => string;
-	leafExt: (path: string, length?: number) => string;
-    leafName: (path: string, extension?: number | string) => string;
     matchesGlob?: (path: string, pattern: string) => boolean;
     normalize: (path: string) => string;
     parentName: (path: string) => string;
 	parentPath: (path: string) => string;
     relative: (from: string, to: string) => string;
     resolve: (...paths: string[]) => string;
-    sanitize(path: string, options?: {
+    sanitizePath(path: string, options?: {
         parent?: string | null;
         parents?: string | string[] | null;
         replacement?: string | null;
         target?: Target | 'auto'
     }) => Result<string>
-    untildify: (path: string) => string;
+    sanitizeSegment: (segment: string, options: {
+		replacement?: string | null;
+		target?: Target | 'auto';
+	}) => string;
+	untildify: (path: string) => string;
+	validatePath: (
+		path: string,
+		options?: {
+			parent?: string | null;
+			parents?: string | string[] | null;
+			target?: Target | 'auto';
+		}
+	) => Result<string>;
+	validateSegment: (segment: string, target?: Target | 'auto') => Result<string>;
 };
 ```
 
