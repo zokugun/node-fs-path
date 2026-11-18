@@ -1,11 +1,14 @@
-import os from 'node:os';
+import type { Target } from '@zokugun/fs-path-sanitize';
+import type { DResult } from '@zokugun/xtry';
 import type opath from 'node:path';
-import { sanitizePath, Sanitizer, type Target } from '@zokugun/fs-path-sanitize';
-import { isArray, isString } from '@zokugun/is-it-type';
-import { err, type DResult } from '@zokugun/xtry';
-import { type PlatformPath } from './types.js';
+import type { PlatformPath } from './types.js';
 
-export function sanitize(_nodePath: opath.PlatformPath, localPath: PlatformPath): (
+import { sanitizePath as sanitize, Sanitizer } from '@zokugun/fs-path-sanitize';
+import { isArray, isString } from '@zokugun/is-it-type';
+import { err } from '@zokugun/xtry';
+import os from 'node:os';
+
+export function sanitizePath(_nodePath: opath.PlatformPath, localPath: PlatformPath): (
 	path: string,
 	options?: {
 		parent?: string | null;
@@ -52,7 +55,7 @@ export function sanitize(_nodePath: opath.PlatformPath, localPath: PlatformPath)
 			});
 		}
 		else {
-			sanitizedPath = sanitizePath(resolvedPath, {
+			sanitizedPath = sanitize(resolvedPath, {
 				absolute: true,
 				replacement: options.replacement,
 				target: options.target,

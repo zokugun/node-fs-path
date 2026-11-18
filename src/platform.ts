@@ -1,4 +1,7 @@
+import type { PlatformPath } from './types.js';
+
 import opath from 'node:path';
+
 import { absolute } from './absolute.js';
 import { buildExt } from './ext/index.js';
 import { isInDir } from './is-in-dir.js';
@@ -11,9 +14,11 @@ import { normalize } from './normalize.js';
 import { parentName } from './parent-name.js';
 import { parentPath } from './parent-path.js';
 import { resolve } from './resolve.js';
-import { sanitize } from './sanitize.js';
-import { type PlatformPath } from './types.js';
+import { sanitizePath } from './sanitize-path.js';
+import { sanitizeSegment } from './sanitize-segment.js';
 import { untildify } from './untildify.js';
+import { validatePath } from './validate-path.js';
+import { validateSegment } from './validate-segment.js';
 
 function buildPlatform(path: opath.PlatformPath): PlatformPath {
 	const {
@@ -46,8 +51,11 @@ function buildPlatform(path: opath.PlatformPath): PlatformPath {
 	result.parentName = parentName(path, result as unknown as PlatformPath);
 	result.parentPath = parentPath(path, result as unknown as PlatformPath);
 	result.resolve = resolve(path, result as unknown as PlatformPath);
-	result.sanitize = sanitize(path, result as unknown as PlatformPath);
+	result.sanitizePath = sanitizePath(path, result as unknown as PlatformPath);
+	result.sanitizeSegment = sanitizeSegment(path, result as unknown as PlatformPath);
 	result.untildify = untildify(path, result as unknown as PlatformPath);
+	result.validatePath = validatePath(path, result as unknown as PlatformPath);
+	result.validateSegment = validateSegment(path, result as unknown as PlatformPath);
 
 	return result as PlatformPath;
 }

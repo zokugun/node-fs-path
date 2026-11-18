@@ -39,11 +39,24 @@ export type PlatformPath = {
 	parentPath: (path: string) => string;
 	relative: (from: string, to: string) => string;
 	resolve: (...paths: string[]) => string;
-	sanitize: (path: string, options?: {
+	sanitizePath: (path: string, options?: {
 		parent?: string | null;
 		parents?: string | string[] | null;
 		replacement?: string | null;
 		target?: Target | 'auto';
 	}) => DResult<string>;
+	sanitizeSegment: (segment: string, options: {
+		replacement?: string | null;
+		target?: Target | 'auto';
+	}) => string;
 	untildify: (path: string) => string;
+	validatePath: (
+		path: string,
+		options?: {
+			parent?: string | null;
+			parents?: string | string[] | null;
+			target?: Target | 'auto';
+		}
+	) => DResult<string>;
+	validateSegment: (segment: string, target?: Target | 'auto') => DResult<string>;
 };

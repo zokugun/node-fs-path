@@ -58,11 +58,11 @@ it('should detect path inside directory', () => {
 it('should sanitize while checking parent', () => {
 	const cwd = process.cwd();
 
-	let result = fse.sanitize('a/./../b/c.txt', { parent: cwd });
+	let result = fse.sanitizePath('a/./../b/c.txt', { parent: cwd });
 	expect(result.fails).to.be.false;
 	expect(result.value).to.equal(fse.join(cwd, '/b/c.txt'));
 
-	result = fse.sanitize('../a/./../b/c.txt', { parent: cwd });
+	result = fse.sanitizePath('../a/./../b/c.txt', { parent: cwd });
 	expect(result.fails).to.be.true;
 	expect(result.error).to.equal('Invalid path: not within allowed parents');
 });

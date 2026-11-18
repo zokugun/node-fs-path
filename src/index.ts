@@ -1,5 +1,8 @@
+import type { PlatformPath } from './types.js';
+
+import { Sanitizer } from '@zokugun/fs-path-sanitize';
+
 import { DEFAULT_PLATFORM } from './platform.js';
-import { type PlatformPath } from './types.js';
 
 const {
 	absolute,
@@ -20,9 +23,12 @@ const {
 	posix,
 	relative,
 	resolve,
-	sanitize,
+	sanitizePath,
+	sanitizeSegment,
 	separator,
 	untildify,
+	validatePath,
+	validateSegment,
 	win32,
 } = DEFAULT_PLATFORM;
 
@@ -47,9 +53,13 @@ export {
 	posix,
 	relative,
 	resolve,
-	sanitize,
+	sanitizePath,
+	Sanitizer,
+	sanitizeSegment,
 	separator,
 	untildify,
+	validatePath,
+	validateSegment,
 	win32,
 };
 /* eslint-enable unicorn/prefer-export-from */
@@ -75,8 +85,12 @@ export default {
 	posix,
 	relative,
 	resolve,
-	sanitize,
+	sanitizePath,
+	Sanitizer,
+	sanitizeSegment,
 	separator,
 	untildify,
+	validatePath,
+	validateSegment,
 	win32,
 };
