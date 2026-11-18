@@ -5,7 +5,7 @@ import type { PlatformPath } from './types.js';
 import { Sanitizer, sanitizeSegment as sanitize } from '@zokugun/fs-path-sanitize';
 import os from 'node:os';
 
-export function sanitizeSegment(_nodePath: opath.PlatformPath, localPath: PlatformPath): (segment: string, options: {
+export function sanitizeSegment(_nodePath: opath.PlatformPath, localPath: PlatformPath): (segment: string, options?: {
 	replacement?: string | null;
 	target?: Target | 'auto';
 }) => string {
@@ -22,7 +22,7 @@ export function sanitizeSegment(_nodePath: opath.PlatformPath, localPath: Platfo
 
 	const sanitizer = Sanitizer.getInstance(target);
 
-	return (segment, options) => {
+	return (segment, options = {}) => {
 		if(!options.target || options.target === 'auto') {
 			return sanitizer.sanitizeSegment(segment, options);
 		}
