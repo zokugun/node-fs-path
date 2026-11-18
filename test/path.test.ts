@@ -11,20 +11,20 @@ it('should isInDir', () => {
 	expect(fse.win32.isInDir('C:\\opt\\webroot2', 'C:\\opt\\webroot')).to.be.false;
 });
 
-it('should leafName', () => {
-	expect(fse.leafName('/opt/webroot')).to.equal('webroot');
-	expect(fse.leafName('/opt/webroot/')).to.equal('webroot');
-	expect(fse.leafName('/opt/webroot/', 1)).to.equal('webroot');
-	expect(fse.leafName('/opt/webroot/', 2)).to.equal('webroot');
-	expect(fse.leafName('/opt/webroot/', 0)).to.equal('webroot');
-	expect(fse.leafName('/opt/webroot/img/test.png')).to.equal('test.png');
-	expect(fse.leafName('/opt/webroot/img/test.png', '.png')).to.equal('test');
-	expect(fse.leafName('/opt/webroot/img/test.png', 1)).to.equal('test');
-	expect(fse.leafName('/opt/webroot/img/test.png', 2)).to.equal('test');
-	expect(fse.leafName('/opt/webroot/img/test.png', 0)).to.equal('test');
-	expect(fse.leafName('/opt/webroot/img/test.tar.gz', 1)).to.equal('test.tar');
-	expect(fse.leafName('/opt/webroot/img/test.tar.gz', 2)).to.equal('test');
-	expect(fse.leafName('/opt/webroot/img/test.tar.gz', 0)).to.equal('test');
+it('should baseName', () => {
+	expect(fse.baseName('/opt/webroot')).to.equal('webroot');
+	expect(fse.baseName('/opt/webroot/')).to.equal('webroot');
+	expect(fse.baseName('/opt/webroot/', 1)).to.equal('webroot');
+	expect(fse.baseName('/opt/webroot/', 2)).to.equal('webroot');
+	expect(fse.baseName('/opt/webroot/', 0)).to.equal('webroot');
+	expect(fse.baseName('/opt/webroot/img/test.png')).to.equal('test.png');
+	expect(fse.baseName('/opt/webroot/img/test.png', '.png')).to.equal('test');
+	expect(fse.baseName('/opt/webroot/img/test.png', 1)).to.equal('test');
+	expect(fse.baseName('/opt/webroot/img/test.png', 2)).to.equal('test');
+	expect(fse.baseName('/opt/webroot/img/test.png', 0)).to.equal('test');
+	expect(fse.baseName('/opt/webroot/img/test.tar.gz', 1)).to.equal('test.tar');
+	expect(fse.baseName('/opt/webroot/img/test.tar.gz', 2)).to.equal('test');
+	expect(fse.baseName('/opt/webroot/img/test.tar.gz', 0)).to.equal('test');
 });
 
 it('should normalize', () => {

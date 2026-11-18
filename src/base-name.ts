@@ -3,7 +3,7 @@ import type { PlatformPath } from './types.js';
 
 import { isString, isUndefined } from '@zokugun/is-it-type';
 
-export function leafName(nodePath: path.PlatformPath, _localPath: PlatformPath): (path: string, extension?: number | string) => string {
+export function baseName(nodePath: path.PlatformPath, _localPath: PlatformPath): (path: string, extension?: number | string) => string {
 	return (path, extension) => {
 		if(isUndefined(extension)) {
 			return nodePath.basename(path);

@@ -13,6 +13,8 @@ export type PlatformPath = {
 	readonly posix: PlatformPath;
 	readonly win32: PlatformPath;
 	absolute: (...paths: string[]) => string;
+	baseExt: (path: string, length?: number) => string;
+	baseName: (path: string, extension?: number | string) => string;
 	ext: {
 		add: (path: string, ext: string) => string;
 		ensure: (path: string, ext: string, options?: ExtOptions) => string;
@@ -31,8 +33,6 @@ export type PlatformPath = {
 	}) => boolean;
 	isSafeSegment: (segment: string, target?: Target | 'auto') => boolean;
 	join: (...paths: string[]) => string;
-	leafExt: (path: string, length?: number) => string;
-	leafName: (path: string, extension?: number | string) => string;
 	matchesGlob?: (path: string, pattern: string) => boolean;
 	normalize: (path: string) => string;
 	parentName: (path: string) => string;

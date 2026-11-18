@@ -11,10 +11,11 @@ The format is based on [Keep a Changelog][keepachangelog], and this project adhe
 ### Breaking
 
 - rename the `sanitize` function as `sanitizePath`
+- rename the functions `leafExt` and `leafName` as `baseExt` and `baseName`
 
 ### Added
 
-- add the function `sanitizeSegment`, `validatePath` and `validateSegment`
+- add the functions `sanitizeSegment`, `validatePath` and `validateSegment`
 
 [v0.3.0] | 2026-11-07
 ---------------------

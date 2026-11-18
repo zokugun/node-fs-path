@@ -3,13 +3,13 @@ import type { PlatformPath } from './types.js';
 import opath from 'node:path';
 
 import { absolute } from './absolute.js';
+import { baseName } from './base-name.js';
 import { buildExt } from './ext/index.js';
 import { isInDir } from './is-in-dir.js';
 import { isInDirs } from './is-in-dirs.js';
 import { isSafePath } from './is-safe-path.js';
 import { isSafeSegment } from './is-safe-segment.js';
 import { join } from './join.js';
-import { leafName } from './leaf-name.js';
 import { normalize } from './normalize.js';
 import { parentName } from './parent-name.js';
 import { parentPath } from './parent-path.js';
@@ -39,14 +39,14 @@ function buildPlatform(path: opath.PlatformPath): PlatformPath {
 	const ext = buildExt(path, result as unknown as PlatformPath)
 
 	result.absolute = absolute(path, result as unknown as PlatformPath);
+	result.baseExt = ext.get;
+	result.baseName = baseName(path, result as unknown as PlatformPath);
 	result.ext = ext;
 	result.isInDir = isInDir(path, result as unknown as PlatformPath);
 	result.isInDirs = isInDirs(path, result as unknown as PlatformPath);
 	result.isSafePath = isSafePath(path, result as unknown as PlatformPath);
 	result.isSafeSegment = isSafeSegment(path, result as unknown as PlatformPath);
 	result.join = join(path, result as unknown as PlatformPath);
-	result.leafExt = ext.get;
-	result.leafName = leafName(path, result as unknown as PlatformPath);
 	result.normalize = normalize(path, result as unknown as PlatformPath);
 	result.parentName = parentName(path, result as unknown as PlatformPath);
 	result.parentPath = parentPath(path, result as unknown as PlatformPath);
