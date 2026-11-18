@@ -45,7 +45,7 @@ export type PlatformPath = {
 		replacement?: string | null;
 		target?: Target | 'auto';
 	}) => DResult<string>;
-	sanitizeSegment: (segment: string, options: {
+	sanitizeSegment: (segment: string, options?: {
 		replacement?: string | null;
 		target?: Target | 'auto';
 	}) => string;
